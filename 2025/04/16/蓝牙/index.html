@@ -1,0 +1,806 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>蓝牙 | KAYER</title><meta name="keywords" content="嵌入式,STM32"><meta name="author" content="Kayer"><meta name="copyright" content="Kayer"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="蓝牙"><meta name="application-name" content="蓝牙"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="蓝牙"><meta property="og:url" content="http://kayer.cn/2025/04/16/%E8%93%9D%E7%89%99/index.html"><meta property="og:site_name" content="KAYER"><meta property="og:description" content="蓝牙1. 蓝牙概述蓝牙，是一种利用低功率无线电，支持设备短距离通信的无线电技术，能在包括移动电话、PDAQ、无线耳机、笔记本电脑、相关外设等众多设备之间进行无线信息交换，蓝牙工作在全球通用的2.4 GHz（2.4 至 2.485 GH）ISM（即工业、科学、医学）频段，使用IEEE802.11协议。"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="https://www.helloimg.com/i/2025/04/02/67ed1a7261ad2.png"><meta property="article:author" content="Kayer"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://www.helloimg.com/i/2025/04/02/67ed1a7261ad2.png"><meta name="description" content="蓝牙1. 蓝牙概述蓝牙，是一种利用低功率无线电，支持设备短距离通信的无线电技术，能在包括移动电话、PDAQ、无线耳机、笔记本电脑、相关外设等众多设备之间进行无线信息交换，蓝牙工作在全球通用的2.4 GHz（2.4 至 2.485 GH）ISM（即工业、科学、医学）频段，使用IEEE802.11协议。"><link rel="shortcut icon" href="/img/FxemojiCherries.png"><link rel="canonical" href="http://kayer.cn/2025/04/16/%E8%93%9D%E7%89%99/"><link rel="preconnect" href="//cdn.cbd.int"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/swiper/swiper.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?var _hmt = _hmt || []; (function() { var hm = document.createElement("script"); hm.src = "https://hm.baidu.com/hm.js?5dd9cfdc2b7b4894a21349ba81a7e71f"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s); })();";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: undefined,
+  postHeadAiDescription: {"enable":true,"gptName":"KAYER","mode":"huggingface","switchBtn":true,"btnLink":"https://api-inference.huggingface.co/models/gpt2","randomNum":3,"basicWordCount":1000,"key":"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","Referer":"https://api-inference.huggingface.co/models/gpt2"},
+  diytitle: {"enable":true,"leaveTitle":"不要走！再看看嘛！w(ﾟДﾟ)w","backTitle":"欢迎肥来！♪(^∇^*)"},
+  LA51: undefined,
+  greetingBox: {"enable":true,"default":"晚上好👋","list":[{"greeting":"晚安😴","startTime":0,"endTime":5},{"greeting":"早上好鸭👋, 祝你一天好心情！","startTime":6,"endTime":9},{"greeting":"上午好👋, 状态很好，鼓励一下～","startTime":10,"endTime":10},{"greeting":"11点多啦, 在坚持一下就吃饭啦～","startTime":11,"endTime":11},{"greeting":"午安👋, 宝贝","startTime":12,"endTime":14},{"greeting":"🌈充实的一天辛苦啦！","startTime":14,"endTime":18},{"greeting":"19点喽, 奖励一顿丰盛的大餐吧🍔。","startTime":19,"endTime":19},{"greeting":"晚上好👋, 在属于自己的时间好好放松😌~","startTime":20,"endTime":24}]},
+  twikooEnvId: 'https://twikoo.kayer.cn',
+  commentBarrageConfig:{"enable":true,"maxBarrage":1,"barrageTime":6000,"accessToken":"712b5baf341fa74c69973cab00f16568","mailMd5":"84CBDEF9CD0E39E1F4FA7B13F0FB6915"},
+  music_page_default: "nav_music",
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: {"apiurl":"https://friends.anheyu.com/"},
+  navMusic: true,
+  mainTone: {"mode":"api","api":"https://img2color-go.vercel.app/api?img=","cover_change":true},
+  authorStatus: {"skills":["🤖️ 数码科技爱好者","🔍 分享与热心帮助","🏠 智能家居小能手","🔨 设计开发一条龙","🤝 专修交互与设计","🏃 脚踏实地行动派","🧱 团队小组发动机","💢 壮汉人狠话不多"]},
+  algolia: {"appId":"K1DLOK3PLA","apiKey":"bd7576f8b139ec3b63407b88edf36e7f","indexName":"KAYER","hits":{"per_page":6},"languages":{"input_placeholder":"输入关键词后按下回车查找","hits_empty":"找不到您查询的内容：${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"作者: Kayer","link":"链接: ","source":"来源: KAYER","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。","copySuccess":"复制成功，复制和转载请标注本文地址"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: 'KAYER',
+  title: '蓝牙',
+  postAI: '本文全面介绍了蓝牙技术，涵盖其定义、发展历程、技术类型（经典蓝牙与低功耗蓝牙）、常见架构（单芯片方案、蓝牙+MCU方案、host+controller分开方案）、协议栈框架、角色划分、地址类型、广播与扫描机制、通讯方式以及透传模式等内容，旨在为嵌入式开发者提供蓝牙技术的详细指南。',
+  pageFillDescription: '蓝牙, 1. 蓝牙概述, 2. 蓝牙发展历程, 3. 蓝牙技术类型, 3.1 经典蓝牙（BRx2FEDR和AMP）, 3.2 低功耗蓝牙（BLE）, 4. 常见蓝牙架构, 4.1 SOC蓝牙单芯片方案, 4.2 SOC蓝牙 + MCU方案, 4.3 蓝牙host + controller分开方案, 4.4 使用场景, 5. 蓝牙协议栈, 5.1 蓝牙芯片架构, 5.2 BLE低功耗蓝牙协议栈框架, 6. BLE角色划分, 7. BLE地址, 7.1 公共地址, 7.2 随机地址, 8. 广播, 9. 扫描, 10. 通讯, 11. 透传模式蓝牙蓝牙概述蓝牙是一种利用低功率无线电支持设备短距离通信的无线电技术能在包括移动电话无线耳机笔记本电脑相关外设等众多设备之间进行无线信息交换蓝牙工作在全球通用的至即工业科学医学频段使用协议蓝牙发展历程自年由爱立信推出至今蓝牙技术已经走过了个岁月发展为当前的状况第一代蓝牙关于短距离通讯早期的探索使用的是技术此时蓝牙的理论传输速率只能达到第二代蓝牙新增的技术使得蓝牙设备的传输率可达第三代蓝牙核心是这是一种全新的交替射频技术支持动态地选择正确射频传输速率高达第四代蓝牙主推低功耗低功耗功能第五代蓝牙开启物联网时代大门在低功耗模式下具备更快更远的传输能力蓝牙技术类型蓝牙协议包括两种技术和这两种技术都包括搜索管理连接管理等机制但它们是相互独立的不能互通的技术厂商如果只实现了一种那么只能与同样实现该技术的设备互通如果厂商要确保能和所有的蓝牙设备互通那么就只能同时实现两种技术而不去管是否真的需要经典蓝牙和是正宗的蓝牙技术可以包括可选的技术以及最早期的蓝牙技术速度只能达到在那个年代已为高大上了随着技术的提升使用技术的蓝牙理论速率可以达到使用技术的蓝牙理论速率可以达到蓝牙自身的物理层和技术差异明显和是不能同时使用的简单的说就是和是可以同时存在的但和只能二选一低功耗蓝牙所讲的技术的进化路线就是传输速率的加快加快再加快但能量是守恒的你想传得更快代价就是消耗更多的能量而有很多的应用场景并不关心传输速率反而非常关心功耗这就是称作蓝牙低功耗产生的背景低功耗蓝牙与经典蓝牙使用相同的无线电频率因此双模设备可以共享同一个天线低功耗蓝牙使用的调制系统更简单技术相比技术差异非常大或者说就是两种不同的技术凑巧都加一个蓝牙的前缀而已目前主要广泛应用于物联网产品领域常见蓝牙架构蓝牙单芯片方案一般是半导体厂商半开源协议栈把开发的蓝牙协议栈直接烧写到蓝牙芯片中比如乐鑫等等此类芯片一般可以直接做为用这类产品一般用于消费类电子集成度很高调一调参数可以直接使用常见的有蓝牙耳机等产品蓝牙方案在集成好的蓝牙芯片基础上通过特定的接口居多发送自定义的来达到想要的功能比如发送代表搜索周围设备外设一个单芯片方案其自定义指令包含蓝牙芯片微控制单元以及蓝牙协议栈此部分的应用将蓝牙作为一个外设使用用于远程通信例如网上卖的一些蓝牙串口蓝牙分开方案这种应用算是蓝牙最复杂的应用客户需要使用蓝牙的场景有很多涉及的蓝牙协议也有很多需要将与分开集成更多的蓝牙协议比如蓝牙电话蓝牙音频蓝牙音乐控制蓝牙电话本蓝牙短信等此部分应用将定制蓝牙的各种服务实现蓝牙多功能需求使用场景手机手机的蓝牙复杂应用注定要用第种方案也就是蓝牙协议栈在主芯片中蓝牙芯片为架构蓝牙音响蓝牙耳机此种应用一般用单芯片方案就能搞定好处在于开发便捷蓝牙手表手表要看功能复杂性如果仅仅有时间显示传感器交互蓝牙那么可以选择单芯片方案也就是方案如果有网络等比较复杂的功能就要使用蓝牙芯片方案蓝牙手环蓝牙心率带等基本上是单芯片方案蓝牙协议栈蓝牙芯片架构蓝牙的核心系统由一个和一个或多个组成逻辑实体在的上层逻辑实体在的下层根据与的组成关系常见的蓝牙芯片也分为以下几种单模蓝牙芯片单一传统蓝牙的芯片单一低功耗蓝牙的芯片即个结合个双模蓝牙芯片同时支持传统蓝牙和低功耗蓝牙的芯片即个结合多个蓝牙协议是通信协议的一种一般而言我们把某个协议的实现代码称为协议栈协议栈就是实现低功耗蓝牙协议的代码低功耗蓝牙协议栈框架要实现一个应用首先需要一个支持射频的芯片然后还需要提供一个与此芯片配套的协议栈最后在协议栈上开发自己的应用可以看出协议栈是连接芯片和应用的桥梁是实现整个应用的关键简单来说协议栈主要用来对你的应用数据进行层层封包以生成一个满足协议的空中数据包也就是说把应用数据包裹在一系列的帧头和帧尾中蓝牙协议规定了两个层次的协议分别为蓝牙核心协议和蓝牙应用层协议蓝牙核心协议关注对蓝牙核心技术的描述和规范它只提供基础的机制并不关心如何使用这些机制蓝牙应用层协议是在蓝牙核心协议的基础上根据具体的应用需求百花齐放定义出各种各样的策略如文件传输局域网等等而蓝牙核心协议又包含和两部分负责定义等偏硬件的规范并在这之上抽象出用于通信的逻辑链路负责在逻辑链路的基础上进行更为友好的封装这样就可以屏蔽掉蓝牙技术的细节让更为方便的使用物理层层主要负责在物理信道上发送和接收信息包使用个射频信道频率范围到链路层层主要负责创建修改和释放逻辑链路如果有需要还包括与之相关的逻辑传输同时负责更新与设备之间物理链路相关的参数它控制链路层状态机处于准备广播监听扫描发起连接已连接这五种状态中的一种主机控制接口层层向主机和控制器提供一个标准化的接口该层可以由软件实现或者使用硬件接口来控制逻辑链路控制及自适应协议层层负责对主机和协议栈之间交换的数据进行协议复用能力分段和重组操作安全管理层层用于生成加密密钥和身份密钥还管理加密密钥和身份密钥的存储并负责生成随机地址并将随机地址解析为已知设备身份通用访问配置文件层层代表所有蓝牙设备通用的基本功能例如传输协议和应用程序配置文件使用的模式和访问程序服务包括设备发现连接模式安全身份验证关联模型和服务发现属性协议层简单来说层用来定义用户命令及命令操作的数据比如读取某个数据或者写某个数据引入了概念用来描述一条一条的数据除了定义数据同时定义该数据可以使用的命令因此这一层被称为层通用属性配置文件层层表示属性服务器和可选的属性客户端的功能该配置文件描述了属性服务器中使用的服务特征和属性的层次结构该层提供用于发现读取写入和指示服务特性和属性的接口角色划分在协议栈中不同的层级有不同的角色划分这些角色划分互不影响设备可以划分为主机和从机从机广播主机可以发起连接定义了种特定角色广播者观察者外围设备和中心设备设备可以分为服务端和客户端地址分为公共地址和随机地址公共地址该类型的地址是全球唯一且固定的理论上重复的概率基本为因为它们是由组织分配给买家的适用于为保证设备地址的唯一性方便其他人辩别随机地址说白了就是厂商白嫖因为地址是免费的当然也提高了隐私随着隐私和安全性的关注增加越来越多的蓝牙设备开始使用随机地址来减少被追踪的风险这在蓝牙低功耗技术中尤为常见公共地址的公共地址就类似于我们日常的身份证号码是全球唯一的且不可改变的为了保证公共地址的全球唯一性其需要向购买然后组织就会对应地分配公共地址给买家的公共地址是全球唯一的且在设备的整个生命周期都不会改变总长度为个字节共位随机地址除了公共地址类型之外还有一个随机地址类型提供额外的隐私保护其又分为静态地址和私有地址它们之间主要通过最高的位有效位来区分静态地址总长度也是位但是最高位的位必须是随机部分至少有一个位是和也就是说不能全部是或全部是设备重启之前不会改变私有地址总长度也是位最高位是随机部分至少有一个位是和也就是说不能全部是或全部是定时更新改变广播广播是指从机服务器每经过一个时间间隔发送一次广播数据包这个时间间隔称为广播间隔这个广播动作叫做广播事件只有当从机处于广播状态时主机客户端才能发现该从机服务器在每个广播事件中广播包会分别在和三个信道上依次广播如下图所示广播数据包一般包含可读的设备名称设备是否可连接等信息扫描扫描是主机监听从机广播数据包和发送扫描请求的过程主机通过扫描可以获取到从机的广播包以及扫描回应数据包主机可以对已扫描到的从机设备发起连接请求从而连接从机设备并通信通讯主从之间的通信是通过的来完成的可以理解为配置数据格式等从机作为的端用来定义和存储包含一个或者多个每个又包含一个或者多个是主从通信的最小单元主机作为的端用来发现和获取从机的和从而与之通信关于服务和特征值的概念每个服务和特征值都有自己的唯一标识标准为位蓝牙协议栈中一般采用位也就是两个字节的格式一个从机设备包括一个或者多个服务一个服务中又可以包括一条或者多条特征值每个特征值都有自己的属性属性的取值有可读可写通知指示透传模式蓝牙透传模式是蓝牙通信中的一种重要工作模式也被称为透明传输模式在这种模式下蓝牙模块就像一条无形的数据管道从一端输入的数据会原封不动地传输到另一端而不需要对数据进行复杂的解析或者处理除了蓝牙协议栈自身必要的处理例如设备发送一串字节流通过蓝牙透传模式设备接收到的就是完全相同的字节流就如同这两个设备直接用一根线连接起来进行数据传输一样就相当于蓝牙不存在一样两个设备直接交流',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-04-16 17:02:22',
+  postMainColor: '#4b9289',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="https://bu.dusays.com/2021/01/15/249d178a78c81.png"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><div class="back-home-button"><i class="anzhiyufont anzhiyu-icon-grip-vertical"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" href="https://kayer.cn/" title="博客"><img class="back-menu-item-icon" src="/img/FxemojiCherries.png" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" href="https://kayer.cn/" title="博客"><img class="back-menu-item-icon" src="/img/FxemojiCherries.png" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div></div></div><a id="site-name" href="/" accesskey="h"><div class="title">KAYER</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 空间</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/fcircle/"><i class="anzhiyufont anzhiyu-icon-artstation faa-tada" style="font-size: 0.9em;"></i><span> 朋友圈</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/comments/"><i class="anzhiyufont anzhiyu-icon-envelope faa-tada" style="font-size: 0.9em;"></i><span> 留言板</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/?id=9350162041&amp;server=tencent"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/todo/"><i class="anzhiyufont anzhiyu-icon-list-ul faa-tada" style="font-size: 0.9em;"></i><span> 待办项</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/album/"><i class="anzhiyufont anzhiyu-icon-images faa-tada" style="font-size: 0.9em;"></i><span> 相册集</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/air-conditioner/"><i class="anzhiyufont anzhiyu-icon-fan faa-tada" style="font-size: 0.9em;"></i><span> 小空调</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li><li><a class="site-page child faa-parent animated-hover" href="javascript:toRandomPost()"><i class="anzhiyufont anzhiyu-icon-shoe-prints1 faa-tada" style="font-size: 0.9em;"></i><span> 随便逛逛</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索🔍" accesskey="s"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span> 搜索</span></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://www.helloimg.com/i/2024/10/21/6716673bd0d15.png" target="_blank"><img class="post-qr-code-img" alt="微信" src="https://www.helloimg.com/i/2024/10/21/6716673bd0d15.png"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://www.helloimg.com/i/2024/10/21/6716673bd420f.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="https://www.helloimg.com/i/2024/10/21/6716673bd420f.png"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> 最新评论</span></div><div class="aside-list"><span>正在加载中...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/C-C/" style="font-size: 1.05rem;">C/C++<sup>2</sup></a><a href="/tags/Linux/" style="font-size: 1.05rem;">Linux<sup>1</sup></a><a href="/tags/STM32/" style="font-size: 1.05rem;">STM32<sup>7</sup></a><a href="/tags/Script/" style="font-size: 1.05rem;">Script<sup>1</sup></a><a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" style="font-size: 1.05rem;">嵌入式<sup>7</sup></a><a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 1.05rem;">算法<sup>3</sup></a><a href="/tags/%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B/" style="font-size: 1.05rem;">系统编程<sup>1</sup></a><a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 1.05rem;">网络<sup>1</sup></a><a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" style="font-size: 1.05rem;">网络编程<sup>1</sup></a><a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/" style="font-size: 1.05rem;">自动化<sup>1</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/04/"><span class="card-archive-list-date">四月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">7</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/11/"><span class="card-archive-list-date">十一月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/10/"><span class="card-archive-list-date">十月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">4</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item on" id="consoleCommentBarrage" onclick="anzhiyu.switchCommentBarrage()" title="热评开关"><a class="commentBarrage"><i class="anzhiyufont anzhiyu-icon-message"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/" itemprop="url">嵌入式</a></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>嵌入式</span></a><a class="article-meta__tags" href="/tags/STM32/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>STM32</span></a></span></div></div><h1 class="post-title" itemprop="name headline">蓝牙</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2025-04-16T08:54:40.697Z" title="发表于 2025-04-16 16:54:40">2025-04-16</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2025-04-16T09:02:22.831Z" title="更新于 2025-04-16 17:02:22">2025-04-16</time></span></div><div class="meta-secondline"><span class="post-meta-separator"></span><span class="post-meta-wordcount"><i class="anzhiyufont anzhiyu-icon-file-word post-meta-icon" title="文章字数"></i><span class="post-meta-label" title="文章字数">字数总计:</span><span class="word-count" title="文章字数">3.7k</span><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-clock post-meta-icon" title="阅读时长"></i><span class="post-meta-label" title="阅读时长">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator"></span><span class="post-meta-pv-cv" id="" data-flag-title="蓝牙"><i class="anzhiyufont anzhiyu-icon-fw-eye post-meta-icon"></i><span class="post-meta-label" title="阅读量">阅读量:</span><span id="busuanzi_value_page_pv"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-spin"></i></span></span><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为郑州"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>郑州</span><span class="post-meta-separator"></span><span class="post-meta-commentcount"><i class="anzhiyufont anzhiyu-icon-comments post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2025/04/16/%E8%93%9D%E7%89%99/#post-comment" tabindex="-1"><span id="twikoo-count"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-spin"></i></span></a></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src="https://www.helloimg.com/i/2025/04/02/67ed1a7261ad2.png"></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><div class="post-ai-description"><div class="ai-title"><i class="anzhiyufont anzhiyu-icon-bilibili"></i><div class="ai-title-text">AI-摘要</div><div id="ai-Toggle">切换</div><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right"></i><i class="anzhiyufont anzhiyu-icon-circle-dot" title="朗读摘要"></i><div id="ai-tag">Huggingface</div></div><div class="ai-explanation">AI初始化中...</div><div class="ai-btn-box"><div class="ai-btn-item">介绍自己 🙈</div><div class="ai-btn-item">生成本文简介 👋</div><div class="ai-btn-item">推荐相关文章 📖</div><div class="ai-btn-item">前往主页 🏠</div><div class="ai-btn-item" id="go-tianli-blog">前往爱发电购买</div></div><script data-pjax src="/js/anzhiyu/ai_abstract.js"></script></div><article class="post-content" id="article-container" itemscope itemtype="http://kayer.cn/2025/04/16/%E8%93%9D%E7%89%99/"><header><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/" itemprop="url">嵌入式</a><a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" tabindex="-1" itemprop="url">嵌入式</a><a href="/tags/STM32/" tabindex="-1" itemprop="url">STM32</a><h1 id="CrawlerTitle" itemprop="name headline">蓝牙</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">Kayer</span><time itemprop="dateCreated datePublished" datetime="2025-04-16T08:54:40.697Z" title="发表于 2025-04-16 16:54:40">2025-04-16</time><time itemprop="dateCreated datePublished" datetime="2025-04-16T09:02:22.831Z" title="更新于 2025-04-16 17:02:22">2025-04-16</time></header><h1 id="蓝牙"><a href="#蓝牙" class="headerlink" title="蓝牙"></a>蓝牙</h1><h2 id="1-蓝牙概述"><a href="#1-蓝牙概述" class="headerlink" title="1. 蓝牙概述"></a>1. 蓝牙概述</h2><p>蓝牙，是一种利用低功率无线电，支持设备短距离通信的无线电技术，能在包括移动电话、PDAQ、无线耳机、笔记本电脑、相关外设等众多设备之间进行无线信息交换，蓝牙工作在全球通用的2.4 GHz（2.4 至 2.485 GH）ISM（即工业、科学、医学）频段，使用IEEE802.11协议。</p>
+<h2 id="2-蓝牙发展历程"><a href="#2-蓝牙发展历程" class="headerlink" title="2. 蓝牙发展历程"></a>2. 蓝牙发展历程</h2><p>自1994年由爱立信推出至今，蓝牙技术已经走过了30个岁月，发展为当前的状况。</p>
+<ul>
+<li>第一代蓝牙：关于短距离通讯早期的探索，使用的是BR（Basic Rate）技术，此时蓝牙的理论传输速率，只能达到721.2Kbps。</li>
+<li>第二代蓝牙：新增的EDR（Enhanced Data Rate）技术，使得蓝牙设备的传输率可达3Mbps。</li>
+<li>第三代蓝牙：核心是AMP（Generic Alternate MAC&#x2F;PHY），这是一种全新的交替射频技术，支持动态地选择正确射频，传输速率高达24Mbps。</li>
+<li>第四代蓝牙：主推Low Energy低功耗，BLE（Bluetooth Low Energy）低功耗功能。</li>
+<li>第五代蓝牙：开启物联网时代大门，在低功耗模式下具备更快更远的传输能力。</li>
+</ul>
+<h2 id="3-蓝牙技术类型"><a href="#3-蓝牙技术类型" class="headerlink" title="3. 蓝牙技术类型"></a>3. 蓝牙技术类型</h2><p>蓝牙协议包括两种技术：<strong>BR</strong>（Basic Rate）和<strong>LE</strong>（Low Energy）。</p>
+<p>这两种技术都包括<strong>搜索</strong>（discovery）管理、<strong>连接</strong>（connection）管理等机制，但它们是相互独立的，不能互通的技术！</p>
+<p>厂商如果只实现了一种，那么只能与同样实现该技术的设备互通。如果厂商要确保能和所有的蓝牙设备互通，那么就只能同时实现两种技术，而不去管是否真的需要。</p>
+<h3 id="3-1-经典蓝牙（BR-EDR和AMP）"><a href="#3-1-经典蓝牙（BR-EDR和AMP）" class="headerlink" title="3.1 经典蓝牙（BR&#x2F;EDR和AMP）"></a>3.1 经典蓝牙（BR&#x2F;EDR和AMP）</h3><p>Basic Rate是正宗的蓝牙技术，可以包括可选的EDR（Enhanced Data Rate）技术，以及AMP（Alternate MAC and PHY layer extension）。</p>
+<ul>
+<li><strong>BR</strong>：最早期的蓝牙技术，速度只能达到721.2Kbps，在那个年代，已为高大上了。</li>
+<li><strong>EDR</strong>：随着技术的提升，使用EDR技术的蓝牙，理论速率可以达到2.1Mbps。</li>
+<li><strong>AMP</strong>：使用AMP技术的蓝牙，理论速率可以达到54Mbps。蓝牙自身的物理层和AMP技术差异明显，BR&#x2F;EDR和AMP是不能同时使用的。简单的说，就是：BR和EDR是可以同时存在的，但BR&#x2F;EDR和AMP只能二选一。</li>
+</ul>
+<h3 id="3-2-低功耗蓝牙（BLE）"><a href="#3-2-低功耗蓝牙（BLE）" class="headerlink" title="3.2 低功耗蓝牙（BLE）"></a>3.2 低功耗蓝牙（BLE）</h3><p>3.1所讲的BR技术的进化路线，就是传输速率的加快、加快、再加快。但能量是守恒的，你想传得更快，代价就是消耗更多的能量。而有很多的应用场景，并不关心传输速率，反而非常关心功耗。这就是Bluetooth LE（称作蓝牙低功耗）产生的背景。</p>
+<p>低功耗蓝牙与经典蓝牙使用相同的2.4GHz无线电频率，因此双模设备可以共享同一个天线。低功耗蓝牙使用的调制系统更简单。BLE技术相比BR技术，差异非常大，或者说就是两种不同的技术，凑巧都加一个“蓝牙”的前缀而已。目前BLE主要广泛应用于IoT（Internet of Things：物联网）产品领域。</p>
+<h2 id="4-常见蓝牙架构"><a href="#4-常见蓝牙架构" class="headerlink" title="4. 常见蓝牙架构"></a>4. 常见蓝牙架构</h2><h3 id="4-1-SOC蓝牙单芯片方案"><a href="#4-1-SOC蓝牙单芯片方案" class="headerlink" title="4.1 SOC蓝牙单芯片方案"></a>4.1 SOC蓝牙单芯片方案</h3><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/16/67ff6fae32e68.png" alt="image-20250414165534441"></p>
+<p>一般是半导体厂商半开源协议栈，把开发的蓝牙协议栈直接烧写到蓝牙芯片中（比如CSR BC4&#x2F;5、CSR8670、CSR8675、T1CC2540、NRF51xXx、NRF52XXx、乐鑫ESP32等等）。</p>
+<p>此类芯片一般可以直接做为MCU用，这类产品一般用于消费类电子，集成度很高，调一调参数可以直接使用，常见的有蓝牙耳机等产品。</p>
+<h3 id="4-2-SOC蓝牙-MCU方案"><a href="#4-2-SOC蓝牙-MCU方案" class="headerlink" title="4.2 SOC蓝牙 + MCU方案"></a>4.2 SOC蓝牙 + MCU方案</h3><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/16/67ff6fad147e3.png" alt="image-20250414170057502"></p>
+<p>在集成好的蓝牙芯片基础上，通过特定的接口（UART居多），发送自定义的command来达到想要的功能，比如发送0x01代表搜索周围设备。</p>
+<p>外设一个单芯片方案，其自定义指令包含蓝牙芯片（BT Controller）、微控制单元（MCU）以及蓝牙协议栈（BT Host）。</p>
+<p>此部分的应用，将蓝牙作为一个外设使用，用于远程通信，例如网上卖的一些蓝牙串口。</p>
+<h3 id="4-3-蓝牙host-controller分开方案"><a href="#4-3-蓝牙host-controller分开方案" class="headerlink" title="4.3 蓝牙host + controller分开方案"></a>4.3 蓝牙host + controller分开方案</h3><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/16/67ff6fac55517.png" alt="image-20250414170442124"></p>
+<p>这种应用算是蓝牙最复杂的应用，客户需要使用蓝牙的场景有很多，涉及的蓝牙协议也有很多，需要将Host与Controller分开，集成更多的蓝牙协议，比如蓝牙电话（HFP）、蓝牙音频（A2DP）、蓝牙音乐控制（AVRCP）、蓝牙电话本（PBAP）、蓝牙短信（MAP）等。</p>
+<p>此部分应用，将定制蓝牙的各种服务，实现蓝牙多功能需求。</p>
+<h3 id="4-4-使用场景"><a href="#4-4-使用场景" class="headerlink" title="4.4 使用场景"></a>4.4 使用场景</h3><ul>
+<li>手机。手机的蓝牙复杂应用，注定要用第3种方案，也就是蓝牙协议栈在主芯片中，蓝牙芯片为HC架构。</li>
+<li>蓝牙音响、蓝牙耳机此种应用。一般用单芯片方案就能搞定，好处在于开发便捷。</li>
+<li>蓝牙手表。手表要看功能复杂性，如果仅仅有时间显示、传感器交互、蓝牙，那么可以选择单芯片方案（也就是方案1），如果有网络等比较复杂的功能就要使用MCU+蓝牙芯片方案。</li>
+<li>蓝牙手环、蓝牙心率带等。基本上是单芯片方案</li>
+</ul>
+<h2 id="5-蓝牙协议栈"><a href="#5-蓝牙协议栈" class="headerlink" title="5. 蓝牙协议栈"></a>5. 蓝牙协议栈</h2><h3 id="5-1-蓝牙芯片架构"><a href="#5-1-蓝牙芯片架构" class="headerlink" title="5.1 蓝牙芯片架构"></a>5.1 蓝牙芯片架构</h3><p>蓝牙的核心系统，由一个Host和一个或多个Controller组成。</p>
+<ul>
+<li>BT Host：逻辑实体，在HCI（Host Controller Interface）的上层。</li>
+<li>BT Controller：逻辑实体，在HCI（Host Controller Interface）的下层。</li>
+<li>根据Host与Controller的组成关系，常见的蓝牙芯片也分为以下几种：<ul>
+<li>单模蓝牙芯片：单一传统蓝牙的芯片，单一低功耗蓝牙的芯片。即1个Host结合1个Controller。</li>
+<li>双模蓝牙芯片：同时支持传统蓝牙和低功耗蓝牙的芯片。即1个Host结合多个Controller。</li>
+</ul>
+</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/16/67ff6fb1aff10.png" alt="image-20250414171332504"></p>
+<p>蓝牙协议是通信协议的一种，一般而言，我们把某个协议的实现代码称为协议栈（protocol stack），BLE协议栈就是实现低功耗蓝牙协议的代码。</p>
+<h3 id="5-2-BLE低功耗蓝牙协议栈框架"><a href="#5-2-BLE低功耗蓝牙协议栈框架" class="headerlink" title="5.2 BLE低功耗蓝牙协议栈框架"></a>5.2 BLE低功耗蓝牙协议栈框架</h3><p>要实现一个BLE应用，首先需要一个支持<strong>BLE射频的芯片</strong>，然后还需要提供一个与此芯片配套的<strong>BLE协议栈</strong>，最后在协议栈上<strong>开发自己的应用</strong>。</p>
+<p>可以看出BLE协议栈是连接芯片和应用的桥梁，是实现整个BLE应用的关键。</p>
+<p>简单来说，BLE协议栈主要用来对你的应用数据进行层层封包，以生成一个满足BLE协议的空中数据包，也就是说，把应用数据包裹在一系列的帧头（header）和帧尾（tail）中。</p>
+<p>蓝牙协议规定了两个层次的协议，分别为<strong>蓝牙核心协议</strong>（Bluetooth Core）和<strong>蓝牙应用层协议</strong>（Bluetooth Application）。</p>
+<p>蓝牙核心协议关注对蓝牙核心技术的描述和规范，它只提供基础的机制，并不关心如何使用这些机制；</p>
+<p>蓝牙应用层协议，是在蓝牙核心协议的基础上，根据具体的应用需求，百花齐放，定义出各种各样的策略，如FTP、文件传输、局域网等等。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/16/67ff6fcb79124.png" alt="image-20250414172527322"></p>
+<p>而蓝牙核心协议（Bluetooth Core）又包含BLE Controller和BLE Host两部分。</p>
+<ul>
+<li>Controller负责定义RF、Baseband等偏硬件的规范，并在这之上抽象出用于通信的逻辑链路（Logical Link）。</li>
+<li>Host负责在逻辑链路的基础上，进行更为友好的封装，这样就可以屏蔽掉蓝牙技术的细节，让Bluetooth Application更为方便的使用。</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/16/67ff6fc210ffa.png" alt="image-20250414173428018"></p>
+<ul>
+<li><p><strong>物理层（Physical Layer，PHY）</strong></p>
+<ul>
+<li>PHY 层主要负责在物理信道上发送和接收信息包。Bluetooth LE 使用 40 个射频信道。频率范围：2402 MHz 到 2480 MHz。</li>
+</ul>
+</li>
+<li><p><strong>链路层（Link Layer，LL）</strong></p>
+<ul>
+<li>LL 层主要负责创建、修改和释放逻辑链路（如果有需要，还包括与之相关的逻辑传输），同时负责更新与设备之间物理链路相关的参数。它控制链路层状态机处于准备、广播、监听 &#x2F; 扫描、发起连接、已连接这五种状态中的一种。</li>
+</ul>
+</li>
+<li><p><strong>主机控制接口层（Host Controller Interface，HCI）</strong></p>
+<ul>
+<li>HCI 层向主机和控制器提供一个标准化的接口。该层可以由软件 API 实现或者使用硬件接口 UART、SPI、USB 来控制。</li>
+</ul>
+</li>
+<li><p><strong>逻辑链路控制及自适应协议层（Logical Link Control and Adaptation Protocol，L2CAP）</strong></p>
+<ul>
+<li>L2CAP 层负责对主机和协议栈之间交换的数据进行协议复用能力、分段和重组操作。</li>
+</ul>
+</li>
+<li><p><strong>安全管理层（Security Manager，SM）</strong></p>
+<ul>
+<li>SMP 层用于生成加密密钥和身份密钥。SMP 还管理加密密钥和身份密钥的存储，并负责生成随机地址并将随机地址解析为已知设备身份。</li>
+</ul>
+</li>
+<li><p><strong>通用访问配置文件层（Generic access profile，GAP）</strong></p>
+<ul>
+<li>GAP 层代表所有蓝牙设备通用的基本功能，例如传输、协议和应用程序配置文件使用的模式和访问程序。GAP 服务包括设备发现、连接模式、安全、身份验证、关联模型和服务发现。</li>
+</ul>
+</li>
+<li><p><strong>属性协议层（Attribute protocol，ATT）</strong></p>
+<ul>
+<li>简单来说，ATT层用来定义用户命令及命令操作的数据，比如读取某个数据或者写某个数据。BLE引入了Attribute概念，用来描述一条一条的数据。Attribute除了定义数据，同时定义该数据可以使用的ATT命令，因此这一层被称为ATT层。</li>
+</ul>
+</li>
+<li><p><strong>通用属性配置文件层（Generic Attribute profile，GATT）</strong></p>
+<ul>
+<li>GATT 层表示属性服务器和可选的属性客户端的功能。该配置文件描述了属性服务器中使用的服务、特征和属性的层次结构。该层提供用于发现、读取、写入和指示服务特性和属性的接口。</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-BLE角色划分"><a href="#6-BLE角色划分" class="headerlink" title="6. BLE角色划分"></a>6. BLE角色划分</h2><p>在 Bluetooth LE 协议栈中不同的层级有不同的角色划分。这些角色划分互不影响。</p>
+<ul>
+<li>LL：设备可以划分为主机和从机，从机广播，主机可以发起连接。</li>
+<li>GAP：定义了4种特定角色：广播者、观察者、外围设备和中心设备。</li>
+<li>GATT：设备可以分为服务端和客户端。</li>
+</ul>
+<h2 id="7-BLE地址"><a href="#7-BLE地址" class="headerlink" title="7. BLE地址"></a>7. BLE地址</h2><p>分为公共地址和随机地址。</p>
+<ul>
+<li><p>公共地址：该类型的地址是全球唯一且固定的，理论上重复的概率基本为0，因为它们是由IEEE组织分配给买家的，适用于为保证BLE设备地址的唯一性，方便其他人辩别。</p>
+</li>
+<li><p>随机地址：说白了就是厂商白嫖，因为地址是免费的。当然也提高了隐私。随着隐私和安全性的关注增加，越来越多的蓝牙设备开始使用随机地址来减少被追踪的风险。这在蓝牙低功耗（BLE）技术中尤为常见。</p>
+</li>
+</ul>
+<h3 id="7-1-公共地址"><a href="#7-1-公共地址" class="headerlink" title="7.1 公共地址"></a>7.1 公共地址</h3><p>BLE的公共地址，就类似于我们日常的身份证号码，是全球唯一的且不可改变的。为了保证BLE公共地址的全球唯一性，其需要向IEEE购买，然后IEEE组织就会对应地分配公共地址给买家。BLE的公共地址是全球唯一的，且在BLE设备的整个生命周期都不会改变。总长度为6个字节，共48位。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/16/67ff6fb02d95a.png" alt="image-20250414181402981"></p>
+<h3 id="7-2-随机地址"><a href="#7-2-随机地址" class="headerlink" title="7.2 随机地址"></a>7.2 随机地址</h3><p>除了公共地址类型之外，还有一个随机地址类型，提供额外的隐私保护，其又分为静态地址（Static Address）和私有地址（Private Address），它们之间主要通过最高的2位有效位来区分。</p>
+<ul>
+<li>静态地址。总长度也是48位，但是最高位的2位必须是0b11。随机部分至少有一个位是0和1。也就是说不能全部是0或全部是1。设备重启之前不会改变。</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/16/67ff6fb513584.png" alt="image-20250414181903417"></p>
+<ul>
+<li>私有地址。总长度也是48位。最高位是00&#x2F;01。随机部分至少有一个位是0和1。也就是说不能全部是0或全部是1。定时更新改变。</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/16/67ff6fb6b1174.png" alt="image-20250414181923708"></p>
+<h2 id="8-广播"><a href="#8-广播" class="headerlink" title="8. 广播"></a>8. 广播</h2><p>广播是指从机（服务器）每经过一个时间间隔发送一次广播数据包，这个时间间隔称为广播间隔，这个广播动作叫做广播事件，只有当从机处于广播状态时，主机（客户端）才能发现该从机（服务器）。</p>
+<p>在每个广播事件中，广播包会分别在37、38和39三个信道上依次广播，如下图所示。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/16/67ff6fb5f2e8b.png" alt="image-20250414182927138"></p>
+<p>广播数据包一般包含可读的设备名称、设备是否可连接等信息。</p>
+<h2 id="9-扫描"><a href="#9-扫描" class="headerlink" title="9. 扫描"></a>9. 扫描</h2><p>扫描是主机监听从机广播数据包和发送扫描请求的过程，主机通过扫描，可以获取到从机的广播包以及扫描回应数据包，主机可以对已扫描到的从机设备发起连接请求，从而连接从机设备并通信。</p>
+<h2 id="10-通讯"><a href="#10-通讯" class="headerlink" title="10. 通讯"></a>10. 通讯</h2><p>主从之间的通信是通过GATT的Profile来完成的，Profile可以理解为配置、数据格式等。</p>
+<p>从机作为GATT的Server端，用来定义和存储Profile。Profile包含一个或者多个Service，每个Service又包含一个或者多个Characteristic，Characteristic是主从通信的最小单元。</p>
+<p>主机作为GATT的Client端，用来发现和获取从机的Service和Characteristic，从而与之通信。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/16/67ff6fba41069.png" alt="image-20250414183147237"></p>
+<p>关于服务 Service和特征值Characteristic的概念。每个服务和特征值都有自己的唯一标识 UUID，标准UUID为128位，蓝牙协议栈中一般采用16位，也就是两个字节的UUID格式。</p>
+<p>一个从机设备包括一个或者多个服务；一个服务中又可以包括一条或者多条特征值，每个特征值都有自己的属性 Property，属性的取值有：可读 Read、可写 Write、通知 Notify、指示Indicate。</p>
+<h2 id="11-透传模式"><a href="#11-透传模式" class="headerlink" title="11. 透传模式"></a>11. 透传模式</h2><p>蓝牙透传模式是蓝牙通信中的一种重要工作模式，也被称为透明传输模式。在这种模式下，蓝牙模块就像一条无形的数据管道。从一端输入的数据，会原封不动地传输到另一端，而不需要对数据进行复杂的解析或者处理（除了蓝牙协议栈自身必要的处理）。例如，设备 A 发送一串字节流，通过蓝牙透传模式，设备 B 接收到的就是完全相同的字节流，就如同这两个设备直接用一根线连接起来进行数据传输一样。</p>
+<div class="note info flat"><p>就相当于蓝牙不存在一样，两个设备直接交流。</p>
+</div></article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/02/67ed1a6d46092.jpg" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/02/67ed1a6d46092.jpg" title="头像" alt="头像"></a><div class="post-copyright__author_name">Kayer</div><div class="post-copyright__author_desc">Just do it.</div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="http://kayer.cn/2025/04/16/%E8%93%9D%E7%89%99/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('http://kayer.cn/2025/04/16/%E8%93%9D%E7%89%99/')">蓝牙</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"><div class="post-reward" onclick="anzhiyu.addRewardMask()"><div class="reward-button button--animated" title="赞赏作者"><i class="anzhiyufont anzhiyu-icon-hand-heart-fill"></i>打赏作者</div><div class="reward-main"><div class="reward-all"><span class="reward-title">感谢你赐予我前进的力量</span><ul class="reward-group"><li class="reward-item"><a href="https://www.helloimg.com/i/2024/10/21/6716673bd0d15.png" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2024/10/21/6716673bd0d15.png" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://www.helloimg.com/i/2024/10/21/6716673bd420f.png" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2024/10/21/6716673bd420f.png" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul><a class="reward-main-btn" href="/about/#about-reward" target="_blank"><div class="reward-text">赞赏者名单</div><div class="reward-dec">因为你们的支持让我意识到写文章的价值🙏</div></a></div></div></div><div id="quit-box" onclick="anzhiyu.removeRewardMask()" style="display: none"></div></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="http://kayer.cn/2025/04/16/%E8%93%9D%E7%89%99/"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=蓝牙&amp;url=http://kayer.cn/2025/04/16/%E8%93%9D%E7%89%99/&amp;pic=https://www.helloimg.com/i/2025/04/02/67ed1a7261ad2.png" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><script>function copyCurrentPageUrl() {
+  var currentPageUrl = window.location.href;
+  var input = document.createElement("input");
+  input.setAttribute("value", currentPageUrl);
+  document.body.appendChild(input);
+  input.select();
+  input.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  document.body.removeChild(input);
+}</script><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="copyCurrentPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://kayer.cn" target="_blank">KAYER</a>！</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>嵌入式<span class="tagsPageCount">7</span></a><a class="post-meta__box__tags" href="/tags/STM32/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>STM32<span class="tagsPageCount">7</span></a></div></div></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2025/04/14/%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/02/67ed1a7261ad2.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">串口通讯</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="anzhiyufont anzhiyu-icon-thumbs-up fa-fw" style="font-size: 1.5rem; margin-right: 4px"></i><span>喜欢这篇文章的人也看了</span></div><div class="relatedPosts-list"><div><a href="/2025/04/02/GPIO/" title="GPIO外设"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/02/67ed1a7261ad2.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2025-04-02</div><div class="title">GPIO外设</div></div></a></div><div><a href="/2025/04/03/STM32%E6%97%B6%E9%92%9F%E7%B3%BB%E7%BB%9F/" title="时钟与复位系统"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/02/67ed1a7261ad2.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2025-04-03</div><div class="title">时钟与复位系统</div></div></a></div><div><a href="/2025/04/06/STM32%E4%B8%AD%E6%96%AD%E7%B3%BB%E7%BB%9F/" title="中断与事件"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/02/67ed1a7261ad2.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2025-04-06</div><div class="title">中断与事件</div></div></a></div><div><a href="/2025/04/08/%E5%AE%9A%E6%97%B6%E5%99%A8/" title="定时器"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/02/67ed1a7261ad2.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2025-04-08</div><div class="title">定时器</div></div></a></div><div><a href="/2025/04/10/%E7%9C%8B%E9%97%A8%E7%8B%97/" title="看门狗"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/02/67ed1a7261ad2.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2025-04-10</div><div class="title">看门狗</div></div></a></div><div><a href="/2025/04/14/%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1/" title="串口通讯"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/02/67ed1a7261ad2.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2025-04-14</div><div class="title">串口通讯</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="anzhiyufont anzhiyu-icon-comments"></i><span> 评论</span></div><div class="comment-randomInfo"><a onclick="anzhiyu.addRandomCommentInfo()" href="javascript:void(0)">匿名评论</a><a href="/privacy" style="margin-left: 4px">隐私政策</a></div><div class="comment-tips" id="comment-tips"><span>✅ 你无需删除空行，直接评论以获取最佳展示效果</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div><div class="comment-barrage"></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info__sayhi" id="author-info__sayhi" onclick="anzhiyu.changeSayHelloText()"></div><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/02/67ed1a6d46092.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-status"><img class="g-status" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/08/24/64e6ce9c507bb.png" alt="status"/></div></div><div class="author-info__description">随遇而安✨</div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/"><h1 class="author-info__name">Kayer</h1><div class="author-info__desc">Just do it.</div></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="https://github.com/kacovi" target="_blank" title="Github"><i class="anzhiyufont anzhiyu-icon-github"></i></a></div></div></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bullhorn anzhiyu-shake"></i><span>公告</span></div><div class="announcement_content">春暖花开🌸</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>文章目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%93%9D%E7%89%99"><span class="toc-number">1.</span> <span class="toc-text">蓝牙</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E8%93%9D%E7%89%99%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">1. 蓝牙概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E8%93%9D%E7%89%99%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">2. 蓝牙发展历程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E8%93%9D%E7%89%99%E6%8A%80%E6%9C%AF%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.3.</span> <span class="toc-text">3. 蓝牙技术类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E7%BB%8F%E5%85%B8%E8%93%9D%E7%89%99%EF%BC%88BR-EDR%E5%92%8CAMP%EF%BC%89"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.1 经典蓝牙（BR&#x2F;EDR和AMP）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E4%BD%8E%E5%8A%9F%E8%80%97%E8%93%9D%E7%89%99%EF%BC%88BLE%EF%BC%89"><span class="toc-number">1.3.2.</span> <span class="toc-text">3.2 低功耗蓝牙（BLE）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%B8%B8%E8%A7%81%E8%93%9D%E7%89%99%E6%9E%B6%E6%9E%84"><span class="toc-number">1.4.</span> <span class="toc-text">4. 常见蓝牙架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-SOC%E8%93%9D%E7%89%99%E5%8D%95%E8%8A%AF%E7%89%87%E6%96%B9%E6%A1%88"><span class="toc-number">1.4.1.</span> <span class="toc-text">4.1 SOC蓝牙单芯片方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-SOC%E8%93%9D%E7%89%99-MCU%E6%96%B9%E6%A1%88"><span class="toc-number">1.4.2.</span> <span class="toc-text">4.2 SOC蓝牙 + MCU方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E8%93%9D%E7%89%99host-controller%E5%88%86%E5%BC%80%E6%96%B9%E6%A1%88"><span class="toc-number">1.4.3.</span> <span class="toc-text">4.3 蓝牙host + controller分开方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.4.4.</span> <span class="toc-text">4.4 使用场景</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E8%93%9D%E7%89%99%E5%8D%8F%E8%AE%AE%E6%A0%88"><span class="toc-number">1.5.</span> <span class="toc-text">5. 蓝牙协议栈</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E8%93%9D%E7%89%99%E8%8A%AF%E7%89%87%E6%9E%B6%E6%9E%84"><span class="toc-number">1.5.1.</span> <span class="toc-text">5.1 蓝牙芯片架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-BLE%E4%BD%8E%E5%8A%9F%E8%80%97%E8%93%9D%E7%89%99%E5%8D%8F%E8%AE%AE%E6%A0%88%E6%A1%86%E6%9E%B6"><span class="toc-number">1.5.2.</span> <span class="toc-text">5.2 BLE低功耗蓝牙协议栈框架</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-BLE%E8%A7%92%E8%89%B2%E5%88%92%E5%88%86"><span class="toc-number">1.6.</span> <span class="toc-text">6. BLE角色划分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-BLE%E5%9C%B0%E5%9D%80"><span class="toc-number">1.7.</span> <span class="toc-text">7. BLE地址</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1-%E5%85%AC%E5%85%B1%E5%9C%B0%E5%9D%80"><span class="toc-number">1.7.1.</span> <span class="toc-text">7.1 公共地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-%E9%9A%8F%E6%9C%BA%E5%9C%B0%E5%9D%80"><span class="toc-number">1.7.2.</span> <span class="toc-text">7.2 随机地址</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E5%B9%BF%E6%92%AD"><span class="toc-number">1.8.</span> <span class="toc-text">8. 广播</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E6%89%AB%E6%8F%8F"><span class="toc-number">1.9.</span> <span class="toc-text">9. 扫描</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-%E9%80%9A%E8%AE%AF"><span class="toc-number">1.10.</span> <span class="toc-text">10. 通讯</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-%E9%80%8F%E4%BC%A0%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.11.</span> <span class="toc-text">11. 透传模式</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/04/16/%E8%93%9D%E7%89%99/" title="蓝牙"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/02/67ed1a7261ad2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="蓝牙"/></a><div class="content"><a class="title" href="/2025/04/16/%E8%93%9D%E7%89%99/" title="蓝牙">蓝牙</a><time datetime="2025-04-16T08:54:40.697Z" title="发表于 2025-04-16 16:54:40">2025-04-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/14/%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1/" title="串口通讯"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/02/67ed1a7261ad2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="串口通讯"/></a><div class="content"><a class="title" href="/2025/04/14/%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1/" title="串口通讯">串口通讯</a><time datetime="2025-04-14T01:10:24.651Z" title="发表于 2025-04-14 09:10:24">2025-04-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/10/%E7%9C%8B%E9%97%A8%E7%8B%97/" title="看门狗"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/02/67ed1a7261ad2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="看门狗"/></a><div class="content"><a class="title" href="/2025/04/10/%E7%9C%8B%E9%97%A8%E7%8B%97/" title="看门狗">看门狗</a><time datetime="2025-04-10T14:26:21.804Z" title="发表于 2025-04-10 22:26:21">2025-04-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/08/%E5%AE%9A%E6%97%B6%E5%99%A8/" title="定时器"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/02/67ed1a7261ad2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="定时器"/></a><div class="content"><a class="title" href="/2025/04/08/%E5%AE%9A%E6%97%B6%E5%99%A8/" title="定时器">定时器</a><time datetime="2025-04-08T07:09:41.663Z" title="发表于 2025-04-08 15:09:41">2025-04-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/06/STM32%E4%B8%AD%E6%96%AD%E7%B3%BB%E7%BB%9F/" title="中断与事件"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/02/67ed1a7261ad2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="中断与事件"/></a><div class="content"><a class="title" href="/2025/04/06/STM32%E4%B8%AD%E6%96%AD%E7%B3%BB%E7%BB%9F/" title="中断与事件">中断与事件</a><time datetime="2025-04-06T01:25:50.735Z" title="发表于 2025-04-06 09:25:50">2025-04-06</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div id="footer_deal"><a class="deal_link" target="_blank" rel="noopener" href="https://www.helloimg.com/i/2024/10/21/67161f06299a2.jpg" title="扫一扫添加博主微信"><i class="anzhiyufont anzhiyu-icon-comments"></i></a><a class="deal_link" target="_blank" rel="noopener" href="https://www.helloimg.com/i/2024/10/21/67166ba976c19.jpg" title="扫一扫添加博主QQ"><i class="anzhiyufont anzhiyu-icon-qq"></i></a><a class="deal_link" target="_blank" rel="noopener" href="https://www.facebook.com/catandsaltedfish/" title="Facebook"><i class="anzhiyufont anzhiyu-icon-facebook1"></i></a><img class="footer_mini_logo" title="返回顶部" alt="返回顶部" onclick="anzhiyu.scrollToDest(0, 500)" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://www.helloimg.com/i/2025/04/02/67ed1a6d46092.jpg" size="50px"/><a class="deal_link" target="_blank" rel="noopener" href="https://github.com/Kacovi" title="Github"><i class="anzhiyufont anzhiyu-icon-github"></i></a><a class="deal_link" target="_blank" rel="noopener" href="https://www.douyin.com/user/MS4wLjABAAAAmZRCXylY8pwZrFn7BT6v7unbuS3r7dHjURszXjnRu6E" title="抖音"><i class="anzhiyufont anzhiyu-icon-tiktok"></i></a><a class="deal_link" href="mailto:kacovic@qq.com" title="有话对我说？"><i class="anzhiyufont anzhiyu-icon-envelope"></i></a></div><div id="workboard"><div id="runtimeTextTip"></div></div><div class="footer_custom_text">Just do it.</div><div id="anzhiyu-footer"><div class="footer-group"><div class="footer-title">服务</div><div class="footer-links"><a class="footer-item" title="51la统计" target="_blank" rel="noopener" href="https://v6.51.la/">51la统计</a><a class="footer-item" title="十年之约" target="_blank" rel="noopener" href="https://www.foreverblog.cn/">十年之约</a><a class="footer-item" title="开往" target="_blank" rel="noopener" href="https://github.com/travellings-link/travellings">开往</a></div></div><div class="footer-group"><div class="footer-title">导航</div><div class="footer-links"><a class="footer-item" title="即刻短文" href="/essay/">即刻短文</a><a class="footer-item" title="友链文章" href="/fcircle/">友链文章</a><a class="footer-item" title="留言板" href="/comments/">留言板</a></div></div><div class="footer-group"><div class="footer-title">协议</div><div class="footer-links"><a class="footer-item" title="隐私协议" href="/privacy/">隐私协议</a><a class="footer-item" title="Cookies" href="/cookies/">Cookies</a><a class="footer-item" title="版权协议" href="/copyright/">版权协议</a></div></div><div class="footer-group"><div class="footer-title-group"><div class="footer-title">友链</div><a class="random-friends-btn" id="footer-random-friends-btn" href="javascript:addFriendLinksInFooter();" title="换一批友情链接"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right"></i></a></div><div class="footer-links" id="friend-links-in-footer"></div></div></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v5.4.0" title="博客框架为Hexo_v5.4.0"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@2.1.5/img/badge/Frame-Hexo.svg" alt="博客框架为Hexo_v5.4.0"/></a><a class="github-badge" target="_blank" href="https://blog.anheyu.com/" style="margin-inline:5px" data-title="本站使用AnZhiYu主题" title="本站使用AnZhiYu主题"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.9/img/Theme-AnZhiYu-2E67D3.svg" alt="本站使用AnZhiYu主题"/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title="本站项目由Github托管"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@2.1.5/img/badge/Source-Github.svg" alt="本站项目由Github托管"/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@2.2.0/img/badge/Copyright-BY-NC-SA.svg" alt="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"/></a></p></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2024 - 2025 By <a class="footer-bar-link" href="/" title="Kayer" target="_blank">Kayer</a></div></div><div id="footer-type-tips"></div><div class="js-pjax"><script>function subtitleType () {
+  getScript('https://sdk.jinrishici.com/v2/browser/jinrishici.js').then(() => {
+    jinrishici.load(result =>{
+      if (true) {
+        const sub = ["衣带渐宽终不悔，为伊消得人憔悴。"]
+        const content = result.data.content
+        sub.unshift(content)
+        window.typed = new Typed('#footer-type-tips', {
+          strings: sub,
+          startDelay: 300,
+          typeSpeed: 150,
+          loop: true,
+          backSpeed: 50,
+        })
+      } else {
+        document.getElementById('footer-type-tips').innerHTML = result.data.content
+      }
+    })
+  })
+}
+
+if (true) {
+  if (typeof Typed === 'function') {
+    subtitleType()
+  } else {
+    getScript('https://cdn.cbd.int/typed.js@2.1.0/dist/typed.umd.js').then(subtitleType)
+  }
+} else {
+  subtitleType()
+}
+</script></div></div><div class="footer-bar-right"><a class="footer-bar-link" href="/null"></a><a class="footer-bar-link cc" href="/copyright" title="cc协议"><i class="anzhiyufont anzhiyu-icon-copyright-line"></i><i class="anzhiyufont anzhiyu-icon-creative-commons-by-line"></i><i class="anzhiyufont anzhiyu-icon-creative-commons-nc-line"></i><i class="anzhiyufont anzhiyu-icon-creative-commons-nd-line"></i></a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/" title="tag"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/" title="category"><div class="headline">分类</div><div class="length-num">5</div></a></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="显示模式"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" href="https://kayer.cn/" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/FxemojiCherries.png" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" href="https://kayer.cn/" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/FxemojiCherries.png" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 空间</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/fcircle/"><i class="anzhiyufont anzhiyu-icon-artstation faa-tada" style="font-size: 0.9em;"></i><span> 朋友圈</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/comments/"><i class="anzhiyufont anzhiyu-icon-envelope faa-tada" style="font-size: 0.9em;"></i><span> 留言板</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/?id=9350162041&amp;server=tencent"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/todo/"><i class="anzhiyufont anzhiyu-icon-list-ul faa-tada" style="font-size: 0.9em;"></i><span> 待办项</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/album/"><i class="anzhiyufont anzhiyu-icon-images faa-tada" style="font-size: 0.9em;"></i><span> 相册集</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/air-conditioner/"><i class="anzhiyufont anzhiyu-icon-fan faa-tada" style="font-size: 0.9em;"></i><span> 小空调</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li><li><a class="site-page child faa-parent animated-hover" href="javascript:toRandomPost()"><i class="anzhiyufont anzhiyu-icon-shoe-prints1 faa-tada" style="font-size: 0.9em;"></i><span> 随便逛逛</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/C-C/" style="font-size: 0.88rem;">C/C++<sup>2</sup></a><a href="/tags/Linux/" style="font-size: 0.88rem;">Linux<sup>1</sup></a><a href="/tags/STM32/" style="font-size: 0.88rem;">STM32<sup>7</sup></a><a href="/tags/Script/" style="font-size: 0.88rem;">Script<sup>1</sup></a><a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" style="font-size: 0.88rem;">嵌入式<sup>7</sup></a><a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 0.88rem;">算法<sup>3</sup></a><a href="/tags/%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B/" style="font-size: 0.88rem;">系统编程<sup>1</sup></a><a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 0.88rem;">网络<sup>1</sup></a><a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" style="font-size: 0.88rem;">网络编程<sup>1</sup></a><a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/" style="font-size: 0.88rem;">自动化<sup>1</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="anzhiyufont anzhiyu-icon-comments"></i></a><a id="switch-commentBarrage" href="javascript:anzhiyu.switchCommentBarrage();" title="开关弹幕"><i class="anzhiyufont anzhiyu-icon-danmu"></i></a><button id="go-up" type="button" title="回到顶部"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="nav-music"><a id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()" accesskey="m">播放音乐</a><div id="console-music-bg"></div><meting-js id="9350162041" server="tencent" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random" volume="0.7"></meting-js></div><div id="algolia-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="anzhiyufont anzhiyu-icon-xmark"></i></button></nav><div class="search-wrap"><div id="algolia-search-input"></div><hr/><div id="algolia-search-results"><div id="algolia-hits"><a class="tag-list" href="/tags/%E7%AE%97%E6%B3%95" title="算法">算法</a><a class="tag-list" href="/tags/CPP" title="CPP">CPP</a><a class="tag-list" href="/tags/Linux" title="Linux">Linux</a></div><div id="algolia-pagination"></div><div id="algolia-info"><div class="algolia-stats"></div><div class="algolia-poweredBy"></div></div></div></div></div><div id="search-mask"></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://y.qq.com/n/ryqq/playlist/8802438608&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.cbd.int/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("10/21/2024 19:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用KAYER!\n\n`,
+    `   ██╗  ██╗ █████╗ ██╗   ██╗███████╗██████╗ 
+     ██║ ██╔╝██╔══██╗╚██╗ ██╔╝██╔════╝██╔══██╗
+     █████╔╝ ███████║ ╚████╔╝ █████╗  ██████╔╝
+     ██╔═██╗ ██╔══██║  ╚██╔╝  ██╔══╝  ██╔══██╗
+     ██║  ██╗██║  ██║   ██║   ███████╗██║  ██║
+     ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝`,
+    `\n\n衣带渐宽终不悔，为伊消得人憔悴`,
+    "\n已上线",
+    dnum,
+    "天",
+    "©2024 By KAYER",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by KAYER %c 你正在访问 Kayer 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><script async="async">(function () {
+  var grt = new Date("10/21/2024 19:00:00"); //设置网站上线时间
+  var now = new Date();
+  var dnum;
+  var hnum;
+  var mnum;
+  var snum;
+  var nowHour;
+
+  // 计算并更新天数、小时数、分钟数和秒数
+  function updateTime() {
+    now = new Date(); // 更新 now 的值
+    nowHour = now.getHours(); // 更新 nowHour 的值
+    var days = (now - grt) / 1000 / 60 / 60 / 24;
+    dnum = Math.floor(days);
+    var hours = (now - grt) / 1000 / 60 / 60 - 24 * dnum;
+    hnum = Math.floor(hours);
+    if (String(hnum).length == 1) {
+      hnum = "0" + hnum;
+    }
+    var minutes = (now - grt) / 1000 / 60 - 24 * 60 * dnum - 60 * hnum;
+    mnum = Math.floor(minutes);
+    if (String(mnum).length == 1) {
+      mnum = "0" + mnum;
+    }
+    var seconds = (now - grt) / 1000 - 24 * 60 * 60 * dnum - 60 * 60 * hnum - 60 * mnum;
+    snum = Math.round(seconds);
+    if (String(snum).length == 1) {
+      snum = "0" + snum;
+    }
+  }
+
+  // 更新网页中显示的网站运行时间
+  function updateHtml() {
+    const footer = document.getElementById("footer");
+    if (!footer) return
+    let currentTimeHtml = "";
+    if (nowHour < 18 && nowHour >= 9) {
+      // 如果是上班时间，默认就是"安知鱼-上班摸鱼中.svg"图片，不需要更改
+      currentTimeHtml = `本站居然运行了 ${dnum} 天<span id='runtime'> ${hnum} 小时 ${mnum} 分 ${snum} 秒 </span><i class='anzhiyufont anzhiyu-icon-heartbeat' style='color:red'></i>`;
+    } else {
+      // 如果是下班时间，插入"安知鱼-下班啦.svg"图片
+      let img = document.querySelector("#workboard .workSituationImg");
+      if (img != null) {
+        img.src = "";
+        img.title = "下班了就该开开心心的玩耍，嘿嘿~";
+        img.alt = "下班了就该开开心心的玩耍，嘿嘿~";
+      }
+
+      currentTimeHtml = `本站居然运行了 ${dnum} 天<span id='runtime'> ${hnum} 小时 ${mnum} 分 ${snum} 秒 </span><i class='anzhiyufont anzhiyu-icon-heartbeat' style='color:red'></i>`;
+    }
+
+    if (document.getElementById("runtimeTextTip")) {
+      document.getElementById("runtimeTextTip").innerHTML = currentTimeHtml;
+    }
+  }
+
+  setInterval(() => {
+    updateTime();
+    updateHtml();
+  }, 1000);
+})();</script><script src="https://cdn.cbd.int/algoliasearch@4.18.0/dist/algoliasearch-lite.umd.js"></script><script src="https://cdn.cbd.int/instantsearch.js@4.60.0/dist/instantsearch.production.min.js"></script><script src="/js/search/algolia.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.cbd.int/mathjax@3.2.2/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><script>(() => {
+  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaid.length === 0) return
+  const runMermaid = () => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from($mermaid).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const loadMermaid = () => {
+    window.loadMermaid ? runMermaid() : getScript('https://cdn.cbd.int/mermaid@10.2.4/dist/mermaid.min.js').then(runMermaid)
+  }
+
+  anzhiyu.addGlobalFn('themeChange', runMermaid, 'mermaid')
+
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo.kayer.cn',
+      region: '',
+      onCommentLoaded: () => {
+        anzhiyu.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(runFn,0)
+    else getScript('https://cdn.cbd.int/twikoo@1.6.39/dist/twikoo.all.min.js').then(runFn)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.kayer.cn',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const runFn = () => {
+    init();
+    GLOBAL_CONFIG_SITE.isPost && getCount()
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) anzhiyu.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script><input type="hidden" name="page-type" id="page-type" value="post"><script async src="/js/anzhiyu/comment_barrage.js"></script></div><script>window.addEventListener('load', () => {
+  const changeContent = (content) => {
+    if (content === '') return content
+
+    content = content.replace(/<img.*?src="(.*?)"?[^\>]+>/ig, '[图片]') // replace image link
+    content = content.replace(/<a[^>]+?href=["']?([^"']+)["']?[^>]*>([^<]+)<\/a>/gi, '[链接]') // replace url
+    content = content.replace(/<pre><code>.*?<\/pre>/gi, '[代码]') // replace code
+    content = content.replace(/<[^>]+>/g,"") // remove html tag
+
+    if (content.length > 150) {
+      content = content.substring(0,150) + '...'
+    }
+    return content
+  }
+
+  const getComment = () => {
+    const runTwikoo = () => {
+      twikoo.getRecentComments({
+        envId: 'https://twikoo.kayer.cn',
+        region: '',
+        pageSize: 6,
+        includeReply: true
+      }).then(function (res) {
+        const twikooArray = res.map(e => {
+          return {
+            'content': changeContent(e.comment),
+            'avatar': e.avatar,
+            'nick': e.nick,
+            'url': e.url + '#' + e.id,
+            'date': new Date(e.created).toISOString()
+          }
+        })
+
+        saveToLocal.set('twikoo-newest-comments', JSON.stringify(twikooArray), 10/(60*24))
+        generateHtml(twikooArray)
+      }).catch(function (err) {
+        const $dom = document.querySelector('#card-newest-comments .aside-list')
+        $dom.textContent= "无法获取评论，请确认相关配置是否正确"
+      })
+    }
+
+    if (typeof twikoo === 'object') {
+      runTwikoo()
+    } else {
+      getScript('https://cdn.cbd.int/twikoo@1.6.39/dist/twikoo.all.min.js').then(runTwikoo)
+    }
+  }
+
+  const generateHtml = array => {
+    let result = ''
+
+    if (array.length) {
+      for (let i = 0; i < array.length; i++) {
+        result += '<div class=\'aside-list-item\'>'
+
+        if (true) {
+          const name = 'data-lazy-src'
+          result += `<a href='${array[i].url}' class='thumbnail'><img ${name}='${array[i].avatar}' alt='${array[i].nick}'><div class='name'><span>${array[i].nick} </span></div></a>`
+        }
+        
+        result += `<div class='content'>
+        <a class='comment' href='${array[i].url}' title='${array[i].content}'>${array[i].content}</a>
+        <time datetime="${array[i].date}">${anzhiyu.diffDate(array[i].date, true)}</time></div>
+        </div>`
+      }
+    } else {
+      result += '没有评论'
+    }
+
+    let $dom = document.querySelector('#card-newest-comments .aside-list')
+    $dom && ($dom.innerHTML= result)
+    window.lazyLoadInstance && window.lazyLoadInstance.update()
+    window.pjax && window.pjax.refresh($dom)
+  }
+
+  const newestCommentInit = () => {
+    if (document.querySelector('#card-newest-comments .aside-list')) {
+      const data = saveToLocal.get('twikoo-newest-comments')
+      if (data) {
+        generateHtml(JSON.parse(data))
+      } else {
+        getComment()
+      }
+    }
+  }
+
+  newestCommentInit()
+  document.addEventListener('pjax:complete', newestCommentInit)
+})</script><script async data-pjax src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.1/bubble/bubble.js"></script><script>var visitorMail = "visitor@kayer.com";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><script src="/js/anzhiyu/right_click_menu.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><script id="click-heart" src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/dist/click-heart.min.js" async="async" mobile="false"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","meta[property=\"og:type\"]","meta[property=\"og:site_name\"]","meta[property=\"og:description\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>
